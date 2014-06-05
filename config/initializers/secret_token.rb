@@ -9,4 +9,20 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-Monest::Application.config.secret_key_base = '7540bc7ae902c2d5dfdd8319a18163ad3766fa9f801fc3d072a771d174542ddf110b89f911064572494344d02c163bb6a5e79a10685538f83c33716e0d7bda22'
+require 'securerandom'
+
+def secure_token
+  token_file = Rails.root.join('.secret')
+  if File.exist?(token_file)
+    # Use the existing token.
+    File.read(token_file).chomp
+  else
+    # Generate a new token and store it in token_file.
+    token = SecureRandom.hex(64)
+    File.write(token_file, token)
+    token
+  end
+end
+
+Monest::Application.config.secret_key_base = secure_token
+# Monest::Application.config.secret_key_base = '7540bc7ae902c2d5dfdd8319a18163ad3766fa9f801fc3d072a771d174542ddf110b89f911064572494344d02c163bb6a5e79a10685538f83c33716e0d7bda22'
