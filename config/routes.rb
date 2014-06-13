@@ -1,8 +1,11 @@
 Monest::Application.routes.draw do
-  get "static/home"
-  get "static/help"
-  get "static/about"
-  get "static/contact"
+
+  root  'static#home'
+  match '/help', to: 'static#help', via: 'get'
+  match '/about', to: 'static#about', via: 'get'
+  match '/contact', to: 'static#contact', via: 'get'
+  match '/signup', to: 'users#new', via: 'get'
+
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
