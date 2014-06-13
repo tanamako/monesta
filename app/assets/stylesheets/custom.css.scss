@@ -194,3 +194,12 @@ input {
   @extend .error;
 }
 
+.help{
+  h2{
+    text-align: left;
+    margin-bottom: 0;
+  }
+  section{
+    margin-top: 20px;
+  }
+}
