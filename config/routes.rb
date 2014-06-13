@@ -1,5 +1,6 @@
 Monest::Application.routes.draw do
 
+  get "users/new"
   root  'static#home'
   match '/help', to: 'static#help', via: 'get'
   match '/about', to: 'static#about', via: 'get'
