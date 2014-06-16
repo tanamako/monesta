@@ -4,9 +4,12 @@
 開発備忘録として付けているので何の価値もありませんが晒してしまいます。
 </p>
 
+<p>会社に期末に提出するように頑張ります</p>
+
 <div class="main">
 	<%= image_tag("0.jpg") %>
 	<span>鈴木ちなみかわいい</span>
+	<a href="https://www.google.co.jp/search?q=%E9%88%B4%E6%9C%A8%E3%81%A1%E3%81%AA%E3%81%BF&espv=2&source=lnms&tbm=isch&sa=X&ei=kcqaU7H2Nc778QW2kYGYAg&ved=0CAYQ_AUoAQ&biw=1375&bih=758&dpr=0.9#imgdii=_">コレ見ると幸せになれる</a>
 </div>
 
 <section>
@@ -26,4 +29,33 @@
 	<p>チュートリアルに間違いがあるっぽい。<br>
 		user.rbというmodelに	<code>attr_accessor :email, :name, :password, :password_confirmation</code><br>
 		追加してないとattributesがないというエラーが起こる</p>
+
+	<p>validateがきいてないのかユーザーが作成出来てしまっている<br>6/16でconfirmだけがvalidate効いてない</p>
+
+	<h3>user登録確認してもだめ</h3>
+	<code>User Load (0.3ms)  SELECT "users".* FROM "users"
+ => #<ActiveRecord::Relation [#<User id: 1, name: nil, email: nil, created_at: "2014-06-13 09:15:02", updated_at: "2014-06-13 09:15:02", password_digest: nil>, #<User id: 2, name: nil, email: nil, created_at: "2014-06-13 09:16:08", updated_at: "2014-06-13 09:16:08", password_digest: nil>, #<User id: 3, name: nil, email: nil, created_at: "2014-06-13 09:18:37", updated_at: "2014-06-13 09:18:37", password_digest: nil>, #<User id: 4, name: nil, email: nil, created_at: "2014-06-13 09:47:17", updated_at: "2014-06-13 09:47:17", password_digest: nil>, #<User id: 5, name: nil, email: nil, created_at: "2014-06-13 10:05:27", updated_at: "2014-06-13 10:05:27", password_digest: nil>, #<User id: 6, name: nil, email: nil, created_at: "2014-06-16 02:41:28", updated_at: "2014-06-16 02:41:28", password_digest: nil>, #<User id: 7, name: nil, email: nil, created_at: "2014-06-16 02:41:41", updated_at: "2014-06-16 02:41:41", password_digest: nil>, #<User id: 8, name: nil, email: nil, created_at: "2014-06-16 02:51:39", updated_at: "2014-06-16 02:51:39", password_digest: nil>]> 
+2.0.0-p353 :006 ></code>	
+
+
+<h3>デバック用</h3>
+<p><a href="http://localhost:3000/users/1">ユーザー</a></p>
+
+<code>
+	$ rails console
+>> user = User.first
+>> user.update_attributes(name: "Example User",
+?>                        email: "example@railstutorial.org",
+?>                        password: "foobar",
+?>                        password_confirmation: "foobar")
+=> true
+</code>
+
+
+</section>
+
+
+<section>
+	<h2>レイアウト調整のために使った</h2>
+	<p><a href="http://stackoverflow.com/questions/3757491/can-i-get-the-name-of-the-current-controller-in-the-view">コントローラーの名前取得してbodyにclass付与しています</a></p>
 </section>
