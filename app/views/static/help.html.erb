@@ -30,8 +30,6 @@
 		user.rbというmodelに	<code>attr_accessor :email, :name, :password, :password_confirmation</code><br>
 		追加してないとattributesがないというエラーが起こる</p>
 
-	<p>validateがきいてないのかユーザーが作成出来てしまっている<br>6/16でconfirmだけがvalidate効いてない</p>
-
 	<h3>user登録確認してもだめ</h3>
 	<code>User Load (0.3ms)  SELECT "users".* FROM "users"
  => #<ActiveRecord::Relation [#<User id: 1, name: nil, email: nil, created_at: "2014-06-13 09:15:02", updated_at: "2014-06-13 09:15:02", password_digest: nil>, #<User id: 2, name: nil, email: nil, created_at: "2014-06-13 09:16:08", updated_at: "2014-06-13 09:16:08", password_digest: nil>, #<User id: 3, name: nil, email: nil, created_at: "2014-06-13 09:18:37", updated_at: "2014-06-13 09:18:37", password_digest: nil>, #<User id: 4, name: nil, email: nil, created_at: "2014-06-13 09:47:17", updated_at: "2014-06-13 09:47:17", password_digest: nil>, #<User id: 5, name: nil, email: nil, created_at: "2014-06-13 10:05:27", updated_at: "2014-06-13 10:05:27", password_digest: nil>, #<User id: 6, name: nil, email: nil, created_at: "2014-06-16 02:41:28", updated_at: "2014-06-16 02:41:28", password_digest: nil>, #<User id: 7, name: nil, email: nil, created_at: "2014-06-16 02:41:41", updated_at: "2014-06-16 02:41:41", password_digest: nil>, #<User id: 8, name: nil, email: nil, created_at: "2014-06-16 02:51:39", updated_at: "2014-06-16 02:51:39", password_digest: nil>]> 
@@ -40,19 +38,70 @@
 
 <h3>デバック用</h3>
 <p><a href="http://localhost:3000/users/1">ユーザー</a></p>
-
+<h4>試してみたこと</h4>
+<p></p>
+<ul>
+	<li>User.update_attributes</li>
+	<li>User.new -> user.save</li>
+	<li>User.create</li>
+	<li>Confirmを指定していないのにvalidate通る</li>
+	<li>attr_accessorを消したら保存されない<br>
+		<code>
+			ActiveRecord::UnknownAttributeError in UsersController#create  unknown attribute: password <br>
+	  def create
+	    @user = User.new(user_params)
+	    if @user.save
+	      flash[:success] = "Monesta"
+	      redirect_to @user
+		</code>
+	</li>
+	<li>validateを修正したら解決した。 <span class="red">user.rbの確認が必要</span></li>
+</ul>
 <code>
-	$ rails console
->> user = User.first
->> user.update_attributes(name: "Example User",
-?>                        email: "example@railstutorial.org",
-?>                        password: "foobar",
-?>                        password_confirmation: "foobar")
-=> true
-</code>
+class User < ActiveRecord::Base
+	#これないとエラーになる
+	# attr_accessor :email, :name, :password, :password_confirmation
+  # before_save { self.email = email.downcase }
+  # validates :name, presence: true, length: { maximum: 50 }
+  # VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+  # validates :email, presence:   true,
+  #                   format:     { with: VALID_EMAIL_REGEX },
+  #                   uniqueness: { case_sensitive: false }
+  # validates :password, length: { minimum: 6 }
+  # attr_accessor :email, :name, :password, :password_confirmation
+  # has_secure_password
 
+  validates :name,  presence: true, length: { maximum: 50 }
+  validates :email, presence: true
+end
+</code>
+</section>
+
+<section>
+	<h2>ログイン</h2>
+	<p><a href="https://www.google.co.jp/search?q=gem+device&oq=gem+device&aqs=chrome..69i57.663j0j1&sourceid=chrome&es_sm=91&ie=UTF-8#q=gem+devise&spell=1">devise</a></p>
+	<h2>アクティブアド民 管理画面</h2>
+	<h2>データベース</h2>
+		<p>RDS Amazon</p>
+
+# Connect twitter, facebook
+gem 'omniauth'
+gem 'omniauth-twitter'
+gem 'omniauth-facebook'
+gem 'twitter'
+
+group :development, :development_mitaka do
+  gem 'pry'
+  gem 'pry-doc'
+  gem 'pry-rails'
+  gem 'better_errors'
+  gem 'binding_of_caller'
+  gem 'source2swagger'
+end
 
 </section>
+
+
 
 
 <section>
