@@ -56,25 +56,10 @@
 		</code>
 	</li>
 	<li>validateを修正したら解決した。 <span class="red">user.rbの確認が必要</span></li>
+	<li>データベースにattributesがなかったのでpassword, confirmを追加</li>
 </ul>
-<code>
-class User < ActiveRecord::Base
-	#これないとエラーになる
-	# attr_accessor :email, :name, :password, :password_confirmation
-  # before_save { self.email = email.downcase }
-  # validates :name, presence: true, length: { maximum: 50 }
-  # VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
-  # validates :email, presence:   true,
-  #                   format:     { with: VALID_EMAIL_REGEX },
-  #                   uniqueness: { case_sensitive: false }
-  # validates :password, length: { minimum: 6 }
-  # attr_accessor :email, :name, :password, :password_confirmation
-  # has_secure_password
 
-  validates :name,  presence: true, length: { maximum: 50 }
-  validates :email, presence: true
-end
-</code>
+
 </section>
 
 <section>
@@ -100,6 +85,37 @@ group :development, :development_mitaka do
 end
 
 </section>
+
+<section>
+	<h2>||=　はrubyの代入演算子</h2>
+	<p>
+Rubyでは、「変数の値がnilなら変数に代入するが、nilでなければ代入しない (変数の値を変えない)」という操作が非常によく使われます。4.2.3で説明したor演算子||を使用すれば、以下のように書くことができます。
+
+  >> @user <br>
+  => nil <br>
+  >> @user = @user || "the user"<br>
+  => "the user"<br>
+  >> @user = @user || "another user"<br>
+  => "the user"		<br>
+	</p>
+</section>
+
+<section>
+	<h2>authenticateでsign inがとまる</h2>
+	<p><code>user = User.find_by(email: params[:session][:email].downcase)</code></p>
+	
+<p>
+	class AddRememberTokenToUsers < ActiveRecord::Migration <br>
+	  def change<br>
+	    add_column :users, :remember_token, :string<br>
+	    add_index  :users, :remember_token<br>
+	  end<br>
+	end
+
+</p>
+
+</section>
+
 
 
 

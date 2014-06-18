@@ -1,5 +1,6 @@
 Monest::Application.routes.draw do
   resources :users
+  resources :sessions, only: [:new, :create, :destroy]
 
   get "users/new"
   root  'static#home'
@@ -7,8 +8,10 @@ Monest::Application.routes.draw do
   match '/about', to: 'static#about', via: 'get'
   match '/contact', to: 'static#contact', via: 'get'
   match '/signup', to: 'users#new', via: 'get'
-
+  match '/signin', to: 'sessions#new', via: 'get'
+  match '/signout', to: 'sessions#new', via: 'get'
   
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
